@@ -1,0 +1,27 @@
+{
+  "name": "regexp-validations",
+  "version": "0.0.1",
+  "description": "Validations class, register validation types with regexp's and validate values against them",
+  "main": "regexp-validations.min.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/phazelift/regexp-validations"
+  },
+  "dependencies" : {
+    "types.js"	: "latest"
+  },
+  "keywords": [
+    "validate",
+    "validation",
+    "batch"
+  ],
+  "author": "Dennis Raymondo van der Sluis <phazelift@gmail.com> (https://github.com/phazelift/)",
+  "license": "GPL-3",
+  "bugs": {
+    "url": "https://github.com/phazelift/regexp-validations/issues"
+  },
+  "homepage": "https://github.com/phazelift/regexp-validations"
+}
