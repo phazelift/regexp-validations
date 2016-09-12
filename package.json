@@ -1,6 +1,6 @@
 {
   "name": "regexp-validations",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Validations class, register validation types with regexp's and validate values against them",
   "main": "regexp-validations.min.js",
   "scripts": {
@@ -19,7 +19,7 @@
     "batch"
   ],
   "author": "Dennis Raymondo van der Sluis <phazelift@gmail.com> (https://github.com/phazelift/)",
-  "license": "GPL-3",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/phazelift/regexp-validations/issues"
   },

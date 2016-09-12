@@ -1,23 +1,34 @@
-// validations - RegExpValidations class, register validation types with regexp's and validate values against them.
+// regexp-validations, register validation types with regexp's and validate values against them.
+//
+// MIT License
 //
 // Copyright (c) 2016 Dennis Raymondo van der Sluis
 //
-// This program is free software: you can redistribute it and/or modify
-//     it under the terms of the GNU General Public License as published by
-//     the Free Software Foundation, either version 3 of the License, or
-//     (at your option) any later version.
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
 //
-//     This program is distributed in the hope that it will be useful,
-//     but WITHOUT ANY WARRANTY; without even the implied warranty of
-//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//     GNU General Public License for more details.
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
 //
-//     You should have received a copy of the GNU General Public License
-//     along with this program.  If not, see <http://www.gnu.org/licenses/>
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+//
 
 "use strict";
 
-var types= require( 'types.js' );
+var
+	 types		= require( 'types.js' )
+	,regEscape	= require( 'reg-escape' )
+;
 
 
 
@@ -52,7 +63,10 @@ RegExpValidations.prototype.addOne= function( key, regexp ){
 		this.errorHandler( 'key: ', key, 'already exists with regexp:', this.validations[key], 'cannot add!' );
 		return false
 	} else {
-		this.validations[ key ]= types.forceRegExp( regexp );
+		this.validations[ key ]= ( types.notRegExp(regexp) )
+			// ?	new RegExp( '^'+ regEscape(regexp)+ '$' )
+			?	regexp
+			:	types.forceRegExp( regexp );
 		return true
 	}
 };
@@ -78,17 +92,14 @@ RegExpValidations.prototype.validateOne= function( key, value ){
 			return null;
 		}
 
-		if ( types.notStringOrNumber(value) ){
-			this.errorHandler( 'invalid value, must be of type String or Number!' );
-			return null;
-		}
-
 		var
 			 regexp			= this.validations[ key ]
 			,displayValue	= ( types.isString(value) ) ? '"'+ value+ '"' : value
 		;
 
-		if ( regexp.test(value) ) return true;
+		if ( types.notRegExp(regexp) ){
+ 			if ( regexp === value ) return true;
+		} else if ( regexp.test(value) ) return true;
 
 		this.errorHandler( 'value: '+ displayValue+ ' did not pass '+ key+ '!', {
 			 key		: key
@@ -127,7 +138,6 @@ RegExpValidations.prototype.validate= function( validations, value ){
 
 	return validated;
 };
-
 
 
 module.exports= RegExpValidations;
